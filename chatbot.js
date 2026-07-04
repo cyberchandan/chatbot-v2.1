@@ -30,7 +30,7 @@
             }
         },
         services: {
-            text: (state) => `Hello ${state.userName}! Please select a service below:`,
+            text: (state) => `Hello ${state.userName}! Please Select Service below:`,
             options: [
                 { text: "3rd Country Travel NOC", next: "noc_options" },
                 { text: "Embassy Registration for Indian Nationals", next: "reg_options" }
@@ -44,24 +44,24 @@
             ]
         },
         noc_option1: {
-            text: () => "<strong>Option 1:</strong> Please visit the following link for more details:<br>" +
-                   "<a href='https://www.indembkathmandu.gov.in/letest-advisory-regarding-consular-services' target='_blank' rel='noopener'>" +
-                   "https://www.indembkathmandu.gov.in/letest-advisory-regarding-consular-services</a>",
+            text: () => "<strong>Option 1:</strong> Please visit following link for more details:<br>" +
+                   "<a href='https://www.indembkathmandu.gov.in/latest-advisory-regarding-consular-services' target='_blank' rel='noopener'>" +
+                   "https://www.indembkathmandu.gov.in/latest-advisory-regarding-consular-services</a>" +
+                   "<br><br>Any other query?",
             options: [
-                { text: "Any other query?", next: "services" },
-                { text: "No, thank you", next: "goodbye" }
+                { text: "Yes", next: "services" },
+                { text: "No", next: "goodbye" }
             ]
         },
         noc_option2: {
-            text: () => "<strong>Option 2:</strong> The following categories are exempted from the requirement of a travel NOC:<br>" +
-                   "<ul>" +
-                   "<li>i) Diplomatic Passport holders</li>" +
-                   "<li>ii) Minors under age of 10 years</li>" +
-                   "<li>iii) Transit passengers who will not cross Nepal immigration</li>" +
-                   "</ul>",
+            text: () => "<strong>Option 2:</strong><br>" +
+                   "i) Diplomatic Passport holders<br>" +
+                   "ii) Minors under age of 10 years<br>" +
+                   "iii) Transit passengers who will not cross Nepal immigration" +
+                   "<br><br>Any other query?",
             options: [
-                { text: "Any other query?", next: "services" },
-                { text: "No, thank you", next: "goodbye" }
+                { text: "Yes", next: "services" },
+                { text: "No", next: "goodbye" }
             ]
         },
         reg_options: {
@@ -73,36 +73,35 @@
             ]
         },
         reg_option1: {
-            text: () => "<strong>Option 1:</strong> Please visit the Embassy of India, Kathmandu with the following documents:<br>" +
-                   "<ol>" +
-                   "<li>Passport / Voter ID issued by the Election Commission of India (or, in case of minors, the Birth Certificate of the child along with parents' proof of Indian Nationality)</li>" +
-                   "<li>Residence proof</li>" +
-                   "</ol>",
+            text: () => "<strong>Option 1:</strong> Please visit Embassy of India, Kathmandu with following documents:<br>" +
+                   "1) Passport/ voter ID issued by Election Commission of India or In case of minor-Birth certificate of the Child a/w parents proof of Indian Nationality<br>" +
+                   "2) Residence proof" +
+                   "<br><br>Any other query?",
             options: [
-                { text: "Any other query?", next: "services" },
-                { text: "No, thank you", next: "goodbye" }
+                { text: "Yes", next: "services" },
+                { text: "No", next: "goodbye" }
             ]
         },
         reg_option2: {
-            text: () => "<strong>Option 2:</strong> Please visit the Embassy of India, Kathmandu with the following documents:<br>" +
-                   "<ol>" +
-                   "<li>Passport / Voter ID issued by the Election Commission of India (or, in case of minors, the Birth Certificate of the child along with parents' proof of Indian Nationality)</li>" +
-                   "<li>Residence proof</li>" +
-                   "<li>Old Registration or FIR copy of lost report (in case of Loss)</li>" +
-                   "<li>Fees - NPR 3290/-</li>" +
-                   "</ol>",
+            text: () => "<strong>Option 2:</strong> Please visit Embassy of India, Kathmandu with following documents:<br>" +
+                   "1) Passport/ voter ID issued by Election Commission of India or In case of minor-Birth certificate of the Child a/w parents proof of Indian Nationality<br>" +
+                   "2) Residence proof<br>" +
+                   "3) Old Registration or FIR Copy of lost report (in case of Loss)<br>" +
+                   "4) Fees - NPR 3290/-" +
+                   "<br><br>Any other query?",
             options: [
-                { text: "Any other query?", next: "services" },
-                { text: "No, thank you", next: "goodbye" }
+                { text: "Yes", next: "services" },
+                { text: "No", next: "goodbye" }
             ]
         },
         reg_option3: {
-            text: () => "<strong>Option 3:</strong> Please fill the form and take a printout from this link:<br>" +
+            text: () => "<strong>Option 3:</strong> Please fill form and take print out from this link:<br>" +
                    "<a href='https://www.indembkathmandu.gov.in/student-registrationNationality' target='_blank' rel='noopener'>" +
-                   "https://www.indembkathmandu.gov.in/student-registrationNationality</a>",
+                   "https://www.indembkathmandu.gov.in/student-registrationNationality</a>" +
+                   "<br><br>Any other query?",
             options: [
-                { text: "Any other query?", next: "services" },
-                { text: "No, thank you", next: "goodbye" }
+                { text: "Yes", next: "services" },
+                { text: "No", next: "goodbye" }
             ]
         }
     };
@@ -111,8 +110,8 @@
     const ChatbotState = {
         currentState: "welcome",
         userName: "",
-        isOpen: false,
-        hasOpenedOnce: false,
+        isOpen: true,
+        hasOpenedOnce: true,
         resetTimer: null,
 
         // DOM elements cache
@@ -132,6 +131,7 @@
             this.cacheDOM();
             this.bindEvents();
             this.startFlow();
+            this.openWindow();
         },
 
         injectHTML() {
@@ -145,21 +145,8 @@
 
             container.innerHTML = `
                 <div class="ie-chatbot-widget">
-                    <!-- Floating Toggle Bubble -->
-                    <button class="ie-chatbot-trigger" id="ie-chatbot-trigger" aria-label="Open Indian Embassy Chatbot">
-                        <!-- Chat Bubble Icon -->
-                        <svg id="ie-icon-chat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
-                        </svg>
-                        <!-- Close Cross Icon (initially hidden by CSS/JS swap) -->
-                        <svg id="ie-icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
-                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-                        </svg>
-                        <div class="ie-chatbot-badge" id="ie-chatbot-badge">1</div>
-                    </button>
-
                     <!-- Chat Window Container -->
-                    <div class="ie-chatbot-window" id="ie-chatbot-window">
+                    <div class="ie-chatbot-window active" id="ie-chatbot-window">
                         <!-- Indian Flag Color Stripes -->
                         <div class="ie-chatbot-stripe">
                             <div class="ie-chatbot-stripe-saffron"></div>
@@ -188,9 +175,10 @@
                                     <p>Kathmandu, Nepal • Online</p>
                                 </div>
                             </div>
-                            <button class="ie-chatbot-close-btn" id="ie-chatbot-close" aria-label="Close Chat Window">
+                            <!-- Restart Button -->
+                            <button class="ie-chatbot-restart-btn" id="ie-chatbot-restart" aria-label="Restart Conversation">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
                                 </svg>
                             </button>
                         </div>
@@ -226,33 +214,49 @@
             this.el.input = document.getElementById("ie-chatbot-input");
             this.el.send = document.getElementById("ie-chatbot-send");
             this.el.close = document.getElementById("ie-chatbot-close");
+            this.el.restart = document.getElementById("ie-chatbot-restart");
             this.el.iconChat = document.getElementById("ie-icon-chat");
             this.el.iconClose = document.getElementById("ie-icon-close");
         },
 
         bindEvents() {
-            // Trigger bubble click handler
-            this.el.trigger.addEventListener("click", () => this.toggleWindow());
+            // Trigger bubble click handler (if trigger exists)
+            if (this.el.trigger) {
+                this.el.trigger.addEventListener("click", () => this.toggleWindow());
+            }
             
-            // Close button click handler
-            this.el.close.addEventListener("click", () => this.closeWindow());
+            // Close button click handler (if close button exists)
+            if (this.el.close) {
+                this.el.close.addEventListener("click", () => this.closeWindow());
+            }
+
+            // Restart button click handler
+            if (this.el.restart) {
+                this.el.restart.addEventListener("click", () => this.restart());
+            }
 
             // Handle typing and sending name input
-            this.el.input.addEventListener("input", () => {
-                this.el.send.disabled = !this.el.input.value.trim();
-            });
+            if (this.el.input) {
+                this.el.input.addEventListener("input", () => {
+                    if (this.el.send) {
+                        this.el.send.disabled = !this.el.input.value.trim();
+                    }
+                });
 
-            this.el.input.addEventListener("keydown", (e) => {
-                if (e.key === "Enter" && this.el.input.value.trim() && !this.el.input.disabled) {
-                    this.handleTextInputSubmit();
-                }
-            });
+                this.el.input.addEventListener("keydown", (e) => {
+                    if (e.key === "Enter" && this.el.input.value.trim() && !this.el.input.disabled) {
+                        this.handleTextInputSubmit();
+                    }
+                });
+            }
 
-            this.el.send.addEventListener("click", () => {
-                if (this.el.input.value.trim() && !this.el.input.disabled) {
-                    this.handleTextInputSubmit();
-                }
-            });
+            if (this.el.send) {
+                this.el.send.addEventListener("click", () => {
+                    if (this.el.input && this.el.input.value.trim() && !this.el.input.disabled) {
+                        this.handleTextInputSubmit();
+                    }
+                });
+            }
         },
 
         toggleWindow() {
@@ -265,31 +269,31 @@
 
         openWindow() {
             this.isOpen = true;
-            this.el.window.classList.add("active");
-            this.el.trigger.classList.add("active");
-            this.el.iconChat.style.display = "none";
-            this.el.iconClose.style.display = "block";
+            if (this.el.window) this.el.window.classList.add("active");
+            if (this.el.trigger) this.el.trigger.classList.add("active");
+            if (this.el.iconChat) this.el.iconChat.style.display = "none";
+            if (this.el.iconClose) this.el.iconClose.style.display = "block";
             
             // Hide notification badge once opened
             if (!this.hasOpenedOnce) {
                 this.hasOpenedOnce = true;
-                this.el.badge.style.display = "none";
+                if (this.el.badge) this.el.badge.style.display = "none";
             }
             
             this.scrollToBottom();
             
             // Set focus on input if enabled
-            if (!this.el.input.disabled) {
+            if (this.el.input && !this.el.input.disabled) {
                 this.el.input.focus();
             }
         },
 
         closeWindow() {
             this.isOpen = false;
-            this.el.window.classList.remove("active");
-            this.el.trigger.classList.remove("active");
-            this.el.iconChat.style.display = "block";
-            this.el.iconClose.style.display = "none";
+            if (this.el.window) this.el.window.classList.remove("active");
+            if (this.el.trigger) this.el.trigger.classList.remove("active");
+            if (this.el.iconChat) this.el.iconChat.style.display = "block";
+            if (this.el.iconClose) this.el.iconClose.style.display = "none";
         },
 
         startFlow() {
@@ -302,7 +306,7 @@
                 clearTimeout(this.resetTimer);
                 this.resetTimer = null;
             }
-            this.el.messages.innerHTML = "";
+            if (this.el.messages) this.el.messages.innerHTML = "";
             this.userName = "";
             this.currentState = "welcome";
             this.renderState();
@@ -333,7 +337,7 @@
                 if (stateDef.inputType === "text") {
                     this.enableTextInput(stateDef.inputPlaceholder || "Type here...");
                 } else if (stateDef.options && stateDef.options.length > 0) {
-                    this.disableTextInput("Please select an option below...");
+                    this.disableTextInput("Please select an option Above...");
                     this.addQuickOptions(stateDef.options);
                 }
 
@@ -444,8 +448,9 @@
                 });
             }
 
-            // Display user message bubble
-            this.addUserMessage(option.text);
+            // Display user message bubble, stripping order numbering (e.g., "i)", "ii)", "1)")
+            const cleanText = option.text.replace(/^(?:[a-zA-Z0-9]+[\)\.]\s*)/, '');
+            this.addUserMessage(cleanText);
 
             // Move to next state
             setTimeout(() => {

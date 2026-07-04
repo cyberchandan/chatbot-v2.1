@@ -20,8 +20,14 @@
     font-family: var(--ie-font);
     box-sizing: border-box;
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
     z-index: 999999;
 }
 
@@ -95,12 +101,11 @@
 
 /* Chat Window Container */
 .ie-chatbot-window {
-    position: absolute;
-    bottom: 80px;
-    right: 0;
-    width: 400px;
+    position: relative;
+    width: 420px;
     height: 600px;
-    max-height: calc(100vh - 130px);
+    max-height: 90vh;
+    max-width: 90vw;
     background-color: var(--ie-bg-white);
     border-radius: 18px;
     box-shadow: var(--ie-shadow-window);
@@ -108,7 +113,7 @@
     flex-direction: column;
     overflow: hidden;
     opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    transform: scale(0.95);
     pointer-events: none;
     transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
     border: 1px solid var(--ie-border);
@@ -116,7 +121,7 @@
 
 .ie-chatbot-window.active {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1);
     pointer-events: auto;
 }
 
@@ -202,27 +207,28 @@
     gap: 4px;
 }
 
-.ie-chatbot-close-btn {
+.ie-chatbot-restart-btn {
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
-    padding: 4px;
+    padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: all 0.2s;
+    transition: all 0.2s ease, transform 0.4s ease;
 }
 
-.ie-chatbot-close-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.ie-chatbot-restart-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
     color: white;
+    transform: rotate(-180deg);
 }
 
-.ie-chatbot-close-btn svg {
-    width: 22px;
-    height: 22px;
+.ie-chatbot-restart-btn svg {
+    width: 20px;
+    height: 20px;
     fill: currentColor;
 }
 
@@ -543,16 +549,10 @@
 
 /* Mobile Screen Responsiveness */
 @media screen and (max-width: 480px) {
-    .ie-chatbot-widget {
-        bottom: 20px;
-        right: 20px;
-    }
-    
     .ie-chatbot-window {
-        width: calc(100vw - 40px);
-        height: calc(100vh - 120px);
-        max-height: calc(100vh - 110px);
-        bottom: 75px;
+        width: calc(100vw - 30px);
+        height: calc(100vh - 60px);
+        max-height: calc(100vh - 60px);
     }
 }
 
@@ -561,13 +561,6 @@
         width: 100vw;
         height: 100vh;
         max-height: 100vh;
-        bottom: 0;
-        right: 0;
         border-radius: 0;
-        position: fixed;
-    }
-    
-    .ie-chatbot-trigger {
-        display: none; /* Can close directly inside header, trigger hides if widget is open */
     }
 }
