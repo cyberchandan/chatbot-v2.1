@@ -44,7 +44,7 @@
             ]
         },
         noc_option1: {
-            text: () => "<strong>Option 1:</strong> Please visit following link for more details:<br>" +
+            text: () => " Please visit following link for more details:<br>" +
                    "<a href='https://www.indembkathmandu.gov.in/latest-advisory-regarding-consular-services' target='_blank' rel='noopener'>" +
                    "https://www.indembkathmandu.gov.in/latest-advisory-regarding-consular-services</a>" +
                    "<br><br>Any other query?",
@@ -54,7 +54,7 @@
             ]
         },
         noc_option2: {
-            text: () => "<strong>Option 2:</strong><br>" +
+            text: () => "" +
                    "i) Diplomatic Passport holders<br>" +
                    "ii) Minors under age of 10 years<br>" +
                    "iii) Transit passengers who will not cross Nepal immigration" +
@@ -73,7 +73,7 @@
             ]
         },
         reg_option1: {
-            text: () => "<strong>Option 1:</strong> Please visit Embassy of India, Kathmandu with following documents:<br>" +
+            text: () => " Please visit Embassy of India, Kathmandu with following documents:<br>" +
                    "1) Passport/ voter ID issued by Election Commission of India or In case of minor-Birth certificate of the Child a/w parents proof of Indian Nationality<br>" +
                    "2) Residence proof" +
                    "<br><br>Any other query?",
@@ -83,7 +83,7 @@
             ]
         },
         reg_option2: {
-            text: () => "<strong>Option 2:</strong> Please visit Embassy of India, Kathmandu with following documents:<br>" +
+            text: () => " Please visit Embassy of India, Kathmandu with following documents:<br>" +
                    "1) Passport/ voter ID issued by Election Commission of India or In case of minor-Birth certificate of the Child a/w parents proof of Indian Nationality<br>" +
                    "2) Residence proof<br>" +
                    "3) Old Registration or FIR Copy of lost report (in case of Loss)<br>" +
@@ -95,9 +95,9 @@
             ]
         },
         reg_option3: {
-            text: () => "<strong>Option 3:</strong> Please fill form and take print out from this link:<br>" +
-                   "<a href='https://www.indembkathmandu.gov.in/student-registrationNationality' target='_blank' rel='noopener'>" +
-                   "https://www.indembkathmandu.gov.in/student-registrationNationality</a>" +
+            text: () => " Please fill form and take print out from this link:<br>" +
+                   "<a href='https://www.indembkathmandu.gov.in/registration' target='_blank' rel='noopener'>" +
+                   "https://www.indembkathmandu.gov.in/registration</a>" +
                    "<br><br>Any other query?",
             options: [
                 { text: "Yes", next: "services" },
@@ -158,16 +158,7 @@
                         <div class="ie-chatbot-header">
                             <div class="ie-chatbot-header-info">
                                 <div class="ie-chatbot-avatar-container">
-                                    <svg class="ie-chatbot-avatar-img" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                        <circle cx="50" cy="50" r="46" fill="#ffffff" stroke="#000080" stroke-width="2.5"/>
-                                        <!-- Styled representation of Ashoka Chakra / Wheel -->
-                                        <circle cx="50" cy="50" r="14" fill="none" stroke="#000080" stroke-width="2"/>
-                                        <circle cx="50" cy="50" r="28" fill="none" stroke="#000080" stroke-width="1.5" stroke-dasharray="2,2"/>
-                                        <!-- 24 Spokes representation -->
-                                        <path d="M50 4 L50 96 M4 50 L96 50 M17.5 17.5 L82.5 82.5 M17.5 82.5 L82.5 17.5" stroke="#000080" stroke-width="0.75"/>
-                                        <path d="M27.5 38.5 L72.5 61.5 M27.5 61.5 L72.5 38.5 M38.5 27.5 L61.5 72.5 M61.5 27.5 L38.5 72.5" stroke="#000080" stroke-width="0.75"/>
-                                        <circle cx="50" cy="50" r="3" fill="#000080"/>
-                                    </svg>
+                                    <img src="logo-kathmandu.jpeg" class="ie-chatbot-avatar-img" alt="Embassy of India Logo">
                                     <div class="ie-chatbot-status-dot"></div>
                                 </div>
                                 <div class="ie-chatbot-header-text">
@@ -358,7 +349,7 @@
 
             wrapper.innerHTML = `
                 <div class="ie-chatbot-msg-avatar">
-                    IN
+                   IN
                 </div>
                 <div class="ie-chatbot-msg-bubble">
                     ${text}
@@ -391,7 +382,7 @@
             wrapper.className = "ie-chatbot-msg-wrapper bot ie-chatbot-typing-wrapper";
             wrapper.innerHTML = `
                 <div class="ie-chatbot-msg-avatar">
-                    IN
+              IN
                 </div>
                 <div class="ie-chatbot-msg-bubble ie-chatbot-typing-bubble">
                     <span></span>
