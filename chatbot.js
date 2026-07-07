@@ -33,7 +33,8 @@
             text: (state) => `Hello ${state.userName}! Please Select Service below:`,
             options: [
                 { text: "3rd Country Travel NOC", next: "noc_options" },
-                { text: "Embassy Registration for Indian Nationals", next: "reg_options" }
+                { text: "Embassy Registration for Indian Nationals", next: "reg_options" },
+                { text: "Book an Appointment", next: "appointment_info" }
             ]
         },
         noc_options: {
@@ -101,6 +102,16 @@
                    "<br><br>Any other query?",
             options: [
                 { text: "Yes", next: "services" },
+                { text: "No", next: "goodbye" }
+            ]
+        },
+        appointment_info: {
+            text: () => "Do you want to book an appointment? Please click the link below to schedule/book your appointment:<br>" +
+                   "<a href='https://apt.indembkathmandu.gov.in/apt/appointment.php' target='_blank' rel='noopener'>" +
+                   "https://apt.indembkathmandu.gov.in/apt/appointment.php</a>" +
+                   "<br><br>Any other query?",
+            options: [
+                // { text: "Yes", next: "services" },
                 { text: "No", next: "goodbye" }
             ]
         }
