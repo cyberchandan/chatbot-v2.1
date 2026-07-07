@@ -34,7 +34,7 @@
             options: [
                 { text: "3rd Country Travel NOC", next: "noc_options" },
                 { text: "Embassy Registration for Indian Nationals", next: "reg_options" },
-                { text: "Book an Appointment", next: "appointment_info" }
+                // { text: "Book an Appointment", next: "appointment_info" }
             ]
         },
         noc_options: {
@@ -56,7 +56,7 @@
         },
         noc_option2: {
             text: () => "" +
-                   "i) Diplomatic Passport holders<br>" +
+                   "i) Diplomatic / official Passport holders<br>" +
                    "ii) Minors under age of 10 years<br>" +
                    "iii) Transit passengers who will not cross Nepal immigration" +
                    "<br><br>Any other query?",
@@ -105,16 +105,16 @@
                 { text: "No", next: "goodbye" }
             ]
         },
-        appointment_info: {
-            text: () => "Do you want to book an appointment? Please click the link below to schedule/book your appointment:<br>" +
-                   "<a href='https://apt.indembkathmandu.gov.in/apt/appointment.php' target='_blank' rel='noopener'>" +
-                   "https://apt.indembkathmandu.gov.in/apt/appointment.php</a>" +
-                   "<br><br>Any other query?",
-            options: [
-                // { text: "Yes", next: "services" },
-                { text: "No", next: "goodbye" }
-            ]
-        }
+        // appointment_info: {
+        //     text: () => "Do you want to book an appointment? Please click the link below to schedule/book your appointment:<br>" +
+        //            "<a href='https://apt.indembkathmandu.gov.in/apt/appointment.php' target='_blank' rel='noopener'>" +
+        //            "https://apt.indembkathmandu.gov.in/apt/appointment.php</a>" +
+        //            "<br><br>Any other query?",
+        //     options: [
+        //         // { text: "Yes", next: "services" },
+        //         { text: "No", next: "goodbye" }
+        //     ]
+        // }
     };
 
     // Chatbot Engine State
