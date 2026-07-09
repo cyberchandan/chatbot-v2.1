@@ -121,8 +121,8 @@
     const ChatbotState = {
         currentState: "welcome",
         userName: "",
-        isOpen: true,
-        hasOpenedOnce: true,
+        isOpen: false,
+        hasOpenedOnce: false,
         resetTimer: null,
 
         // DOM elements cache
@@ -131,6 +131,7 @@
             trigger: null,
             badge: null,
             window: null,
+            overlay: null,
             messages: null,
             input: null,
             send: null,
@@ -142,7 +143,6 @@
             this.cacheDOM();
             this.bindEvents();
             this.startFlow();
-            this.openWindow();
         },
 
         injectHTML() {
@@ -156,8 +156,24 @@
 
             container.innerHTML = `
                 <div class="ie-chatbot-widget">
+                    <!-- Backdrop Overlay -->
+                    <div class="ie-chatbot-overlay" id="ie-chatbot-overlay"></div>
+
+                    <!-- Floating Toggle Bubble -->
+                    <button class="ie-chatbot-trigger" id="ie-chatbot-trigger" aria-label="Open Indian Embassy Chatbot">
+                        <!-- Chat Bubble Icon -->
+                        <svg id="ie-icon-chat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+                        </svg>
+                        <!-- Close Cross Icon (initially hidden by CSS/JS swap) -->
+                        <svg id="ie-icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                        </svg>
+                        <div class="ie-chatbot-badge" id="ie-chatbot-badge">1</div>
+                    </button>
+
                     <!-- Chat Window Container -->
-                    <div class="ie-chatbot-window active" id="ie-chatbot-window">
+                    <div class="ie-chatbot-window" id="ie-chatbot-window">
                         <!-- Indian Flag Color Stripes -->
                         <div class="ie-chatbot-stripe">
                             <div class="ie-chatbot-stripe-saffron"></div>
@@ -177,12 +193,20 @@
                                     <p>Kathmandu, Nepal • Online</p>
                                 </div>
                             </div>
-                            <!-- Restart Button -->
-                            <button class="ie-chatbot-restart-btn" id="ie-chatbot-restart" aria-label="Restart Conversation">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-                                </svg>
-                            </button>
+                            <div class="ie-chatbot-header-controls">
+                                <!-- Restart Button -->
+                                <button class="ie-chatbot-restart-btn" id="ie-chatbot-restart" aria-label="Restart Conversation">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                                    </svg>
+                                </button>
+                                <!-- Close Button -->
+                                <button class="ie-chatbot-close-btn" id="ie-chatbot-close" aria-label="Close Chat Window">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Chat Messages Screen -->
@@ -212,6 +236,7 @@
             this.el.trigger = document.getElementById("ie-chatbot-trigger");
             this.el.badge = document.getElementById("ie-chatbot-badge");
             this.el.window = document.getElementById("ie-chatbot-window");
+            this.el.overlay = document.getElementById("ie-chatbot-overlay");
             this.el.messages = document.getElementById("ie-chatbot-messages");
             this.el.input = document.getElementById("ie-chatbot-input");
             this.el.send = document.getElementById("ie-chatbot-send");
@@ -230,6 +255,11 @@
             // Close button click handler (if close button exists)
             if (this.el.close) {
                 this.el.close.addEventListener("click", () => this.closeWindow());
+            }
+
+            // Overlay click handler (if overlay exists)
+            if (this.el.overlay) {
+                this.el.overlay.addEventListener("click", () => this.closeWindow());
             }
 
             // Restart button click handler
@@ -272,6 +302,7 @@
         openWindow() {
             this.isOpen = true;
             if (this.el.window) this.el.window.classList.add("active");
+            if (this.el.overlay) this.el.overlay.classList.add("active");
             if (this.el.trigger) this.el.trigger.classList.add("active");
             if (this.el.iconChat) this.el.iconChat.style.display = "none";
             if (this.el.iconClose) this.el.iconClose.style.display = "block";
@@ -293,6 +324,7 @@
         closeWindow() {
             this.isOpen = false;
             if (this.el.window) this.el.window.classList.remove("active");
+            if (this.el.overlay) this.el.overlay.classList.remove("active");
             if (this.el.trigger) this.el.trigger.classList.remove("active");
             if (this.el.iconChat) this.el.iconChat.style.display = "block";
             if (this.el.iconClose) this.el.iconClose.style.display = "none";
